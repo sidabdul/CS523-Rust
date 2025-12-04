@@ -50,7 +50,39 @@ impl Day {
         ]
     }
 }
-
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Ord, PartialOrd)]
+struct Time(u16);
+impl Time {
+    fn parse(s: &str) -> Result<Self, String> {
+        let mut it = s.split(':');
+        let h = it
+            .next()
+            .ok_or("time must be HH:MM")?
+            .parse::<u16>()
+            .map_err(|_| "bad hour")?;
+        let m = it
+            .next()
+            .ok_or("time must be HH:MM")?
+            .parse::<u16>()
+            .map_err(|_| "bad minute")?;
+        if h > 23 || m > 59 {
+            return Err("hour/minute out of range".into());
+        }
+        Ok(Time(h * 60 + m))
+    }
+    fn fmt(self) -> String {
+        let h = self.0 / 60;
+        let m = self.0 % 60;
+        format!("{:02}:{:02}", h, m)
+    }
+}
+#[derive(Debug, Clone)]
+struct Meeting {
+    day: Day,
+    start: Time,
+    end: Time,
+    location: String,
+}
 
 fn main() {
     println!("Hello, world!");
