@@ -84,6 +84,27 @@ struct Meeting {
     location: String,
 }
 
+impl Meeting {
+    fn overlaps(&self, other: &Meeting) -> bool {
+        if self.day != other.day {
+            return false;
+        }
+        !(self.end.0 <= other.start.0 || other.end.0 <= self.start.0)
+    }
+}
+#[derive(Debug, Clone)]
+struct Class {
+    code: String,
+    title: String,
+    meetings: Vec<Meeting>,
+}
+#[derive(Default)]
+struct Schedule {
+    classes: Vec<Class>,
+}
+
+
+
 fn main() {
     println!("Hello, world!");
 }
