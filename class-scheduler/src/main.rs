@@ -117,6 +117,25 @@ fn help() {
     );
 }
 
+impl Schedule {
+    fn add_class(&mut self, code: &str, title: &str) -> Result<(), String> {
+        if self
+            .classes
+            .iter()
+            .any(|c| c.code.eq_ignore_ascii_case(code))
+        {
+            return Err(format!("Class '{}' already exists.", code));
+        }
+        self.classes.push(Class {
+            code: code.to_string(),
+            title: title.to_string(),
+            meetings: vec![],
+        });
+        Ok(())
+    }
+}
+
+
 fn main() {
     println!("Hello, world!");
 }
